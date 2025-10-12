@@ -7,6 +7,8 @@ import { NotFound } from "~/components/NotFound";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "~/components/ui/sonner";
+import { Header } from "~/domains/header/header";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -58,8 +60,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="flex flex-col gap-4">
+        <Header />
+
         {children}
+
+        <Toaster />
 
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />

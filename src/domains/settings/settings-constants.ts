@@ -1,0 +1,1 @@
+export const SETTINGS_LS_KEY = "SETTINGS_LS_KEY";
