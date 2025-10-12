@@ -40,10 +40,10 @@ export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
             <DropdownMenuItem>Redeem</DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => {
-                navigator.clipboard.writeText(code);
+              onClick={async () => {
+                await navigator.clipboard.writeText(code);
 
-                toast.success(`${code} has been copied to clipboard !`);
+                toast.success("The code has been copied to clipboard !");
               }}
             >
               Copy
