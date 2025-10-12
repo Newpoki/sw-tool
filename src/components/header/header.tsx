@@ -10,14 +10,7 @@ export const Header = () => {
 
         <div>
           <Button size="sm" asChild variant="ghost">
-            <Link
-              to="/coupons"
-              activeProps={{
-                className: "font-bold",
-              }}
-            >
-              Coupons list
-            </Link>
+            <Link to="/coupons">Coupons list</Link>
           </Button>
 
           <Button size="sm" asChild variant="ghost">

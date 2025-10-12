@@ -8,7 +8,7 @@ import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "~/components/ui/sonner";
-import { Header } from "~/domains/header/header";
+import { Header } from "~/components/header/header";
 
 export const Route = createRootRoute({
   head: () => ({
