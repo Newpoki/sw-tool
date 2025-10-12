@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as CouponsRouteImport } from './routes/coupons'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CouponsAddRouteImport } from './routes/coupons.add'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -28,34 +29,42 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CouponsAddRoute = CouponsAddRouteImport.update({
+  id: '/add',
+  path: '/add',
+  getParentRoute: () => CouponsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/coupons': typeof CouponsRoute
+  '/coupons': typeof CouponsRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/coupons/add': typeof CouponsAddRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/coupons': typeof CouponsRoute
+  '/coupons': typeof CouponsRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/coupons/add': typeof CouponsAddRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/coupons': typeof CouponsRoute
+  '/coupons': typeof CouponsRouteWithChildren
   '/settings': typeof SettingsRoute
+  '/coupons/add': typeof CouponsAddRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/coupons' | '/settings'
+  fullPaths: '/' | '/coupons' | '/settings' | '/coupons/add'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coupons' | '/settings'
-  id: '__root__' | '/' | '/coupons' | '/settings'
+  to: '/' | '/coupons' | '/settings' | '/coupons/add'
+  id: '__root__' | '/' | '/coupons' | '/settings' | '/coupons/add'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CouponsRoute: typeof CouponsRoute
+  CouponsRoute: typeof CouponsRouteWithChildren
   SettingsRoute: typeof SettingsRoute
 }
 
@@ -82,12 +91,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coupons/add': {
+      id: '/coupons/add'
+      path: '/add'
+      fullPath: '/coupons/add'
+      preLoaderRoute: typeof CouponsAddRouteImport
+      parentRoute: typeof CouponsRoute
+    }
   }
 }
 
+interface CouponsRouteChildren {
+  CouponsAddRoute: typeof CouponsAddRoute
+}
+
+const CouponsRouteChildren: CouponsRouteChildren = {
+  CouponsAddRoute: CouponsAddRoute,
+}
+
+const CouponsRouteWithChildren =
+  CouponsRoute._addFileChildren(CouponsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CouponsRoute: CouponsRoute,
+  CouponsRoute: CouponsRouteWithChildren,
   SettingsRoute: SettingsRoute,
 }
 export const routeTree = rootRouteImport

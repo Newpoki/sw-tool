@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { COUPONS_TABLE_COLUMNS } from "~/domains/coupons/coupons-columns";
 import { CouponsTable } from "~/domains/coupons/coupons-table";
@@ -16,9 +16,13 @@ function RouteComponent() {
 
   return (
     <div className="container flex flex-col gap-4">
-      <Button className="ml-auto">Add new coupon</Button>
+      <Button className="ml-auto" asChild>
+        <Link to="/coupons/add">Add new coupon</Link>
+      </Button>
 
       <CouponsTable data={data} columns={COUPONS_TABLE_COLUMNS} />
+
+      <Outlet />
     </div>
   );
 }
