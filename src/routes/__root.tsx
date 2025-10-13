@@ -68,10 +68,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="flex flex-col gap-4">
-        <Header />
+      {/* Avoid using styles on body, can cause some issue with dropover, popover, dialog, etc */}
+      <body>
+        <div className="flex flex-col gap-4">
+          <Header />
 
-        {children}
+          {children}
+        </div>
 
         <Toaster />
 

@@ -17,8 +17,10 @@ function RouteComponent() {
 
   return (
     <div className="container flex flex-col gap-4">
-      <Button className="ml-auto" asChild>
-        <Link to="/coupons/add">Add new coupon</Link>
+      <Button className="ml-auto" asChild type="button">
+        <Link to="/coupons/add" resetScroll={false}>
+          Add new coupon
+        </Link>
       </Button>
 
       <CouponsTable data={coupons} columns={COUPONS_TABLE_COLUMNS} />

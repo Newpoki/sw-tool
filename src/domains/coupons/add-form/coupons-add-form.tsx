@@ -51,9 +51,12 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
     },
   });
 
-  const handleSubmit = useCallback((formValues: AddCouponFormValues) => {
-    return addCouponMutation(formValues);
-  }, []);
+  const handleSubmit = useCallback(
+    (formValues: AddCouponFormValues) => {
+      return addCouponMutation(formValues);
+    },
+    [addCouponMutation],
+  );
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
