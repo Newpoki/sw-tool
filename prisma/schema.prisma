@@ -9,7 +9,8 @@ datasource db {
 }
 
 model coupon {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    createdAt DateTime @default(now())
-    value     String   @unique
+    id        String    @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime  @default(now())
+    expiredAt DateTime?
+    value     String    @unique
 }

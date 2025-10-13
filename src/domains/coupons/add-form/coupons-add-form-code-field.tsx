@@ -14,7 +14,10 @@ export const CouponsAddFormCodeField = ({
 
   return (
     <Field data-invalid={fieldState.invalid}>
-      <FieldLabel htmlFor={field.name}>Code</FieldLabel>
+      <FieldLabel htmlFor={field.name} aria-required>
+        Code
+      </FieldLabel>
+
       <Input
         {...field}
         id={field.name}

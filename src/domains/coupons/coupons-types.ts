@@ -2,6 +2,9 @@ import z from "zod";
 
 export const addCouponFormValuesSchema = z.object({
   code: z.string().min(1, "Coupon code is required"),
+  expiresAt: z.date().refine((date) => date > new Date(), {
+    message: "Expiration date must be in the future",
+  }),
 });
 
 export type AddCouponFormValues = z.infer<typeof addCouponFormValuesSchema>;

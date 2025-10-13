@@ -1,5 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Coupon } from "./coupons-types";
 import { Button } from "~/components/ui/button";
 import { MoreHorizontalIcon } from "lucide-react";
 import {
@@ -10,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { Coupon } from "@prisma/client";
 
 export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
   {
