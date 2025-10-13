@@ -17,8 +17,19 @@ export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
     header: "Coupon",
   },
   {
-    accessorKey: "expirationDate",
-    header: "Expiration date",
+    accessorKey: "expiresAt",
+    header: "Expires At",
+    cell: ({ row }) => {
+      const { expiresAt } = row.original;
+
+      if (expiresAt == null) {
+        return "N/A";
+      }
+
+      return new Intl.DateTimeFormat("en-US", {
+        dateStyle: "long",
+      }).format(expiresAt);
+    },
   },
   {
     id: "actions",

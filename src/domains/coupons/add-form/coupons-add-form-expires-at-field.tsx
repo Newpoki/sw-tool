@@ -50,7 +50,7 @@ export const CouponsAddFormExpiresAtField = ({
         <PopoverContent className="w-auto p-0">
           <Calendar
             mode="single"
-            selected={field.value ?? ""}
+            selected={field.value}
             onSelect={field.onChange}
             disabled={isDateDisabled}
           />
