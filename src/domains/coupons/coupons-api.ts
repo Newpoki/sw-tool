@@ -1,7 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { MutationOptions, queryOptions } from "@tanstack/react-query";
-import { Coupon, PrismaClient } from "@prisma/client";
-import { AddCouponFormValues } from "./coupons-types";
+import { PrismaClient, Coupon } from "@prisma/client";
+import {
+  AddCouponFormValues,
+  addCouponFormValuesSchema,
+} from "./coupons-types";
 
 const prisma = new PrismaClient();
 
@@ -22,11 +25,12 @@ export const couponsQueryOptions = () =>
   });
 
 const addCoupons = createServerFn({ method: "POST" })
-  .inputValidator((data) => data)
+  .inputValidator(addCouponFormValuesSchema)
   .handler(async ({ data }) => {
     const coupon = await prisma.coupon.create({
       data: {
-        code: "123456",
+        code: data.code,
+        expiresAt: data.expiresAt,
       },
     });
 

@@ -46,6 +46,8 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
           return [coupon, ...currentCoupons];
         },
       );
+
+      onSuccess();
     },
   });
 
