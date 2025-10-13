@@ -38,7 +38,7 @@ function RouteComponent() {
 
   const handleCloseDrawer = useCallback((open: boolean) => {
     if (!open) {
-      setIsOpen(open);
+      setIsOpen(false);
     }
   }, []);
 
