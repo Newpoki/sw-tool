@@ -152,7 +152,11 @@ function RouteComponent() {
 
     // Add a slight delay to wait for dialog/drawer animation
     setTimeout(() => {
-      navigate({ to: "/coupons", resetScroll: false });
+      navigate({
+        to: "/coupons",
+        // Subroute is displayed as Outlet, we want to keep the scroll position
+        resetScroll: false,
+      });
     }, 300);
   }, [navigate]);
 

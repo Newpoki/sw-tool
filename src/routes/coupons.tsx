@@ -18,7 +18,11 @@ function RouteComponent() {
   return (
     <div className="container flex flex-col gap-4">
       <Button className="ml-auto" asChild type="button">
-        <Link to="/coupons/add" resetScroll={false}>
+        <Link
+          to="/coupons/add"
+          // Subroute is displayed as Outlet, we want to keep the scroll position
+          resetScroll={false}
+        >
           Add new coupon
         </Link>
       </Button>
