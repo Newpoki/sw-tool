@@ -68,7 +68,7 @@ function RouteComponent() {
             </DialogDescription>
           </DialogHeader>
 
-          <CouponsAddForm />
+          <CouponsAddForm onSuccess={() => handleCloseDialog(false)} />
         </DialogContent>
       </Dialog>
     );
@@ -93,7 +93,7 @@ function RouteComponent() {
         </DrawerHeader>
 
         <div className="p-4">
-          <CouponsAddForm />
+          <CouponsAddForm onSuccess={() => handleCloseDrawer(false)} />
         </div>
 
         <DrawerFooter className="pt-2">

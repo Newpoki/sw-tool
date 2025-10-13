@@ -13,9 +13,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addCouponsMutationOptions, couponsQueryOptions } from "../coupons-api";
 import { CouponsAddFormExpiresAtField } from "./coupons-add-form-expires-at-field";
 import { toast } from "sonner";
+import { CouponsAddFormAutoUseField } from "./coupons-add-form-auto-use-field";
 
-export const CouponsAddForm = () => {
+type CouponsAddFormProps = {
+  onSuccess: () => void;
+};
+
+export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
   const queryClient = useQueryClient();
+
+  const form = useForm<AddCouponFormValues>({
+    resolver: zodResolver(addCouponFormValuesSchema),
+    defaultValues: {
+      autoUse: true,
+      code: "",
+      expiresAt: undefined,
+    },
+  });
 
   const { mutateAsync: addCouponMutation } = useMutation({
     ...addCouponsMutationOptions(),
@@ -35,14 +49,6 @@ export const CouponsAddForm = () => {
     },
   });
 
-  const form = useForm<AddCouponFormValues>({
-    resolver: zodResolver(addCouponFormValuesSchema),
-    defaultValues: {
-      code: "",
-      expiresAt: undefined,
-    },
-  });
-
   const handleSubmit = useCallback((formValues: AddCouponFormValues) => {
     return addCouponMutation(formValues);
   }, []);
@@ -50,6 +56,8 @@ export const CouponsAddForm = () => {
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup>
+        <CouponsAddFormAutoUseField control={form.control} />
+
         <CouponsAddFormCodeField control={form.control} />
 
         <CouponsAddFormExpiresAtField control={form.control} />

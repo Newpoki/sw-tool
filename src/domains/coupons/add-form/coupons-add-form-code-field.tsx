@@ -21,7 +21,7 @@ export const CouponsAddFormCodeField = ({
       <Input
         {...field}
         id={field.name}
-        placeholder="Type your Hive ID"
+        placeholder="Type the coupon code"
         autoComplete="off"
         aria-invalid={fieldState.invalid}
       />
