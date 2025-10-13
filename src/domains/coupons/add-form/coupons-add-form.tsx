@@ -9,8 +9,14 @@ import { Field, FieldGroup } from "~/components/ui/field";
 import { Button } from "~/components/ui/button";
 import { CouponsAddFormCodeField } from "./coupons-add-form-code-field";
 import { Link } from "@tanstack/react-router";
+import { useMutation } from "@tanstack/react-query";
+import { addCouponsMutationOptions } from "../coupons-api";
 
 export const CouponsAddForm = () => {
+  const { mutateAsync: addCouponMutation } = useMutation(
+    addCouponsMutationOptions(),
+  );
+
   const form = useForm<AddCouponFormValues>({
     resolver: zodResolver(addCouponFormValuesSchema),
     defaultValues: {
@@ -19,7 +25,7 @@ export const CouponsAddForm = () => {
   });
 
   const handleSubmit = useCallback((formValues: AddCouponFormValues) => {
-    console.log("submit");
+    return addCouponMutation(formValues);
   }, []);
 
   return (

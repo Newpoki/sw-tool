@@ -1,0 +1,15 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "./generated"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model coupon {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt DateTime @default(now())
+    value     String   @unique
+}
