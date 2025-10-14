@@ -15,6 +15,7 @@ export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
   {
     accessorKey: "code",
     header: "Coupon",
+    enableHiding: false,
   },
   {
     accessorKey: "createdAt",
@@ -45,6 +46,7 @@ export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
 
   {
     id: "actions",
+    enableHiding: false,
     cell: ({ row }) => {
       const { code } = row.original;
 

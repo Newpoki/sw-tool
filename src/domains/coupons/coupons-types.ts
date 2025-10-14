@@ -1,4 +1,5 @@
 import z from "zod";
+import { fetchPaginatedCouponsQueryOptions } from "./coupons-api";
 
 export const fetchPaginatedCouponsParamsSchema = z.object({
   pagination: z.object({
@@ -17,6 +18,11 @@ export const addCouponFormValuesSchema = z.object({
     })
     .optional(),
 });
+
+export const couponsTableInitialColumnsVisibilitySchema = z.record(
+  z.string(),
+  z.boolean(),
+);
 
 export type AddCouponFormValues = z.infer<typeof addCouponFormValuesSchema>;
 

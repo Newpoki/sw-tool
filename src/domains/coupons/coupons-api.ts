@@ -32,7 +32,9 @@ const fetchPaginatedCoupons = createServerFn({ method: "GET" })
     return { elements: coupons, count };
   });
 
-export const couponsQueryOptions = (data: FetchPaginatedCouponsParams) =>
+export const fetchPaginatedCouponsQueryOptions = (
+  data: FetchPaginatedCouponsParams,
+) =>
   queryOptions({
     queryKey: ["coupons", data.pagination.pageIndex],
     queryFn: () => fetchPaginatedCoupons({ data }),

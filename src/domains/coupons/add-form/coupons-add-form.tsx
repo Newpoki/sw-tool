@@ -10,7 +10,10 @@ import { Button } from "~/components/ui/button";
 import { CouponsAddFormCodeField } from "./coupons-add-form-code-field";
 import { Link } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addCouponsMutationOptions, couponsQueryOptions } from "../coupons-api";
+import {
+  addCouponsMutationOptions,
+  fetchPaginatedCouponsQueryOptions,
+} from "../coupons-api";
 import { CouponsAddFormExpiresAtField } from "./coupons-add-form-expires-at-field";
 import { toast } from "sonner";
 import { CouponsAddFormAutoUseField } from "./coupons-add-form-auto-use-field";
@@ -37,7 +40,7 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
       toast.success("Coupon has been added.");
 
       queryClient.setQueryData(
-        couponsQueryOptions().queryKey,
+        fetchPaginatedCouponsQueryOptions().queryKey,
         (currentCoupons) => {
           if (currentCoupons == null) {
             return [coupon];

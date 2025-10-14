@@ -18,28 +18,42 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import { CouponsTableColumnsPicker } from "./coupons-table-columns-picker";
+import { useLocalStorage } from "~/lib/use-local-storage";
+import { couponsTableInitialColumnsVisibilitySchema } from "../coupons-types";
+import { COUPONS_TABLE_INITIAL_COLUMNS_VISIBILITY_LS_KEY } from "../coupons-constants";
+import { Coupon } from "@prisma/client";
+import { Link } from "@tanstack/react-router";
 
-interface CouponsTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+type CouponsTableProps = {
+  columns: ColumnDef<Coupon>[];
+  data: Coupon[];
   rowCount: number;
   paginationState: PaginationState;
   onPaginationChange: OnChangeFn<PaginationState>;
-}
+};
 
-export function CouponsTable<TData, TValue>({
+export function CouponsTable<Coupon, TValue>({
   columns,
   data,
   paginationState,
   rowCount,
   onPaginationChange,
-}: CouponsTableProps<TData, TValue>) {
+}: CouponsTableProps) {
+  const initialColumnsVisibilityLS = useLocalStorage(
+    COUPONS_TABLE_INITIAL_COLUMNS_VISIBILITY_LS_KEY,
+    couponsTableInitialColumnsVisibilitySchema,
+  );
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     rowCount,
     manualPagination: true,
+    initialState: {
+      columnVisibility: initialColumnsVisibilityLS.get() ?? undefined,
+    },
     state: {
       pagination: paginationState,
     },
@@ -47,7 +61,21 @@ export function CouponsTable<TData, TValue>({
   });
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-between">
+        <CouponsTableColumnsPicker table={table} />
+
+        <Button asChild type="button">
+          <Link
+            to="/coupons/add"
+            // Subroute is displayed as Outlet, we want to keep the scroll position
+            resetScroll={false}
+          >
+            Add new coupon
+          </Link>
+        </Button>
+      </div>
+
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
@@ -119,6 +147,6 @@ export function CouponsTable<TData, TValue>({
           Next
         </Button>
       </div>
-    </>
+    </div>
   );
 }

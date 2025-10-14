@@ -3,16 +3,16 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { couponsQueryOptions } from "~/domains/coupons/coupons-api";
-import { COUPONS_TABLE_COLUMNS } from "~/domains/coupons/coupons-columns";
+import { fetchPaginatedCouponsQueryOptions } from "~/domains/coupons/coupons-api";
+import { COUPONS_TABLE_COLUMNS } from "~/domains/coupons/table/coupons-table-columns";
 import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "~/domains/coupons/coupons-constants";
-import { CouponsTable } from "~/domains/coupons/coupons-table";
+import { CouponsTable } from "~/domains/coupons/table/coupons-table";
 
 export const Route = createFileRoute("/coupons")({
   component: RouteComponent,
   loader: async ({ context }) => {
     return await context.queryClient.ensureQueryData(
-      couponsQueryOptions({
+      fetchPaginatedCouponsQueryOptions({
         pagination: COUPONS_TABLE_DEFAULT_PAGINATION_STATE,
       }),
     );
@@ -24,20 +24,10 @@ function RouteComponent() {
     COUPONS_TABLE_DEFAULT_PAGINATION_STATE,
   );
 
-  const { data } = useQuery(couponsQueryOptions({ pagination }));
+  const { data } = useQuery(fetchPaginatedCouponsQueryOptions({ pagination }));
 
   return (
-    <div className="container flex flex-col gap-4">
-      <Button className="ml-auto" asChild type="button">
-        <Link
-          to="/coupons/add"
-          // Subroute is displayed as Outlet, we want to keep the scroll position
-          resetScroll={false}
-        >
-          Add new coupon
-        </Link>
-      </Button>
-
+    <div className="container">
       <CouponsTable
         data={data?.elements ?? []}
         rowCount={data?.count ?? 0}
