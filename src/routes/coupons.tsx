@@ -8,6 +8,7 @@ import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "~/domains/coupons/coupon
 import { CouponsTable } from "~/domains/coupons/table/coupons-table";
 
 export const Route = createFileRoute("/coupons")({
+  ssr: false, // We don't need SSR features, and in our case, it cause some troubles
   component: RouteComponent,
   loader: async ({ context }) => {
     return await context.queryClient.ensureQueryData(
