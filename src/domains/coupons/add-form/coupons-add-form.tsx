@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldGroup } from "~/components/ui/field";
 import { Button } from "~/components/ui/button";
 import { CouponsAddFormCodeField } from "./coupons-add-form-code-field";
-import { Link } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   addCouponsMutationOptions,
@@ -17,6 +16,7 @@ import {
 import { CouponsAddFormExpiresAtField } from "./coupons-add-form-expires-at-field";
 import { toast } from "sonner";
 import { CouponsAddFormAutoUseField } from "./coupons-add-form-auto-use-field";
+import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "../coupons-constants";
 
 type CouponsAddFormProps = {
   onSuccess: () => void;
@@ -40,13 +40,19 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
       toast.success("Coupon has been added.");
 
       queryClient.setQueryData(
-        fetchPaginatedCouponsQueryOptions().queryKey,
-        (currentCoupons) => {
-          if (currentCoupons == null) {
-            return [coupon];
+        // Updating only the first page, because that's where the element would end up
+        fetchPaginatedCouponsQueryOptions({
+          pagination: COUPONS_TABLE_DEFAULT_PAGINATION_STATE,
+        }).queryKey,
+        (currentData) => {
+          if (currentData == null) {
+            return { count: 1, elements: [coupon] };
           }
 
-          return [coupon, ...currentCoupons];
+          return {
+            count: currentData.count + 1,
+            elements: [coupon, ...currentData.elements],
+          };
         },
       );
 

@@ -33,13 +33,13 @@ type CouponsTableProps = {
   onPaginationChange: OnChangeFn<PaginationState>;
 };
 
-export function CouponsTable<Coupon, TValue>({
+export const CouponsTable = ({
   columns,
   data,
   paginationState,
   rowCount,
   onPaginationChange,
-}: CouponsTableProps) {
+}: CouponsTableProps) => {
   const initialColumnsVisibilityLS = useLocalStorage(
     COUPONS_TABLE_INITIAL_COLUMNS_VISIBILITY_LS_KEY,
     couponsTableInitialColumnsVisibilitySchema,
@@ -149,4 +149,4 @@ export function CouponsTable<Coupon, TValue>({
       </div>
     </div>
   );
-}
+};

@@ -17,9 +17,8 @@ const headers = {
   "X-Requested-With": "XMLHttpRequest",
 };
 
-export const addServerCoupon = createServerFn({ method: "POST" })
-  .inputValidator((params) => params)
-  .handler(async ({ data }) => {
+export const addServerCoupon = createServerFn({ method: "POST" }).handler(
+  async () => {
     const body = new URLSearchParams(payload);
 
     const response = await fetch(
@@ -34,4 +33,5 @@ export const addServerCoupon = createServerFn({ method: "POST" })
     const json = await response.json();
 
     return json;
-  });
+  },
+);

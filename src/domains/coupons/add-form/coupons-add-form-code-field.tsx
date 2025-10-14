@@ -17,7 +17,7 @@ export const CouponsAddFormCodeField = ({
     (event: React.ChangeEvent<HTMLInputElement>) => {
       field.onChange(event.target.value.toUpperCase());
     },
-    [],
+    [field],
   );
 
   return (

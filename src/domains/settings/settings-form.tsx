@@ -27,11 +27,14 @@ export const SettingsForm = () => {
     },
   });
 
-  const handleSubmit = useCallback((formValues: SettingsFormValues) => {
-    toast("Settings have been updated");
+  const handleSubmit = useCallback(
+    (formValues: SettingsFormValues) => {
+      toast("Settings have been updated");
 
-    settingsLS.set(formValues);
-  }, []);
+      settingsLS.set(formValues);
+    },
+    [settingsLS],
+  );
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>

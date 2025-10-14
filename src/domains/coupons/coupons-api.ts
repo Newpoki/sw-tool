@@ -11,7 +11,6 @@ import {
   FetchPaginatedCouponsParams,
   fetchPaginatedCouponsParamsSchema as fetchPaginatedCouponsParamsSchema,
 } from "./coupons-types";
-import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "./coupons-constants";
 
 const prisma = new PrismaClient();
 
@@ -36,7 +35,7 @@ export const fetchPaginatedCouponsQueryOptions = (
   data: FetchPaginatedCouponsParams,
 ) =>
   queryOptions({
-    queryKey: ["coupons", data.pagination.pageIndex],
+    queryKey: ["coupons", data],
     queryFn: () => fetchPaginatedCoupons({ data }),
     placeholderData: keepPreviousData,
   });

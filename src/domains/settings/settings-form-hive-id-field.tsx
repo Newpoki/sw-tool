@@ -1,4 +1,4 @@
-import { Control, useController, useFormContext } from "react-hook-form";
+import { Control, useController } from "react-hook-form";
 import { SettingsFormValues } from "./settings-types";
 import { Field, FieldError, FieldLabel } from "~/components/ui/field";
 import { Input } from "~/components/ui/input";

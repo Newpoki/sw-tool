@@ -6,7 +6,6 @@ import {
   FieldError,
   FieldLabel,
 } from "~/components/ui/field";
-import { Input } from "~/components/ui/input";
 import { AddCouponFormValues } from "../coupons-types";
 import { Switch } from "~/components/ui/switch";
 

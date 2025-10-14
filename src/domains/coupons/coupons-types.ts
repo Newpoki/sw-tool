@@ -1,5 +1,4 @@
 import z from "zod";
-import { fetchPaginatedCouponsQueryOptions } from "./coupons-api";
 
 export const fetchPaginatedCouponsParamsSchema = z.object({
   pagination: z.object({

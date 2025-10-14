@@ -18,14 +18,17 @@ export const CouponsTableColumnsPickerItem = ({
     couponsTableInitialColumnsVisibilitySchema,
   );
 
-  const handleChangeColumnVisibility = useCallback((value: boolean) => {
-    column.toggleVisibility(!!value);
+  const handleChangeColumnVisibility = useCallback(
+    (value: boolean) => {
+      column.toggleVisibility(!!value);
 
-    initialColumnsVisibilityLS.set({
-      ...initialColumnsVisibilityLS.get(),
-      [column.id]: value,
-    });
-  }, []);
+      initialColumnsVisibilityLS.set({
+        ...initialColumnsVisibilityLS.get(),
+        [column.id]: value,
+      });
+    },
+    [column, initialColumnsVisibilityLS],
+  );
 
   return (
     <DropdownMenuCheckboxItem

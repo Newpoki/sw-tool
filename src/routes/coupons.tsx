@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { PaginationState } from "@tanstack/react-table";
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
 import { fetchPaginatedCouponsQueryOptions } from "~/domains/coupons/coupons-api";
 import { COUPONS_TABLE_COLUMNS } from "~/domains/coupons/table/coupons-table-columns";
 import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "~/domains/coupons/coupons-constants";
