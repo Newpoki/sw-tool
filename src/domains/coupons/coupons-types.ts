@@ -1,5 +1,12 @@
 import z from "zod";
 
+export const fetchPaginatedCouponsParamsSchema = z.object({
+  pagination: z.object({
+    pageIndex: z.number().gte(0),
+    pageSize: z.number().gt(0),
+  }),
+});
+
 export const addCouponFormValuesSchema = z.object({
   autoUse: z.boolean(),
   code: z.string().min(1, "Coupon code is required"),
@@ -12,3 +19,7 @@ export const addCouponFormValuesSchema = z.object({
 });
 
 export type AddCouponFormValues = z.infer<typeof addCouponFormValuesSchema>;
+
+export type FetchPaginatedCouponsParams = z.infer<
+  typeof fetchPaginatedCouponsParamsSchema
+>;

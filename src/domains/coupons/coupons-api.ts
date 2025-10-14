@@ -1,27 +1,42 @@
 import { createServerFn } from "@tanstack/react-start";
-import { MutationOptions, queryOptions } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  MutationOptions,
+  queryOptions,
+} from "@tanstack/react-query";
 import { PrismaClient, Coupon } from "@prisma/client";
 import {
   AddCouponFormValues,
   addCouponFormValuesSchema,
+  FetchPaginatedCouponsParams,
+  fetchPaginatedCouponsParamsSchema as fetchPaginatedCouponsParamsSchema,
 } from "./coupons-types";
+import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "./coupons-constants";
 
 const prisma = new PrismaClient();
 
-const fetchCoupons = createServerFn({ method: "GET" }).handler(async () => {
-  const data = await prisma.coupon.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+const fetchPaginatedCoupons = createServerFn({ method: "GET" })
+  .inputValidator(fetchPaginatedCouponsParamsSchema)
+  .handler(async ({ data }) => {
+    const [coupons, count] = await Promise.all([
+      prisma.coupon.findMany({
+        skip: data.pagination.pageIndex * data.pagination.pageSize,
+        take: data.pagination.pageSize,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      prisma.coupon.count(),
+    ]);
+
+    return { elements: coupons, count };
   });
 
-  return data;
-});
-
-export const couponsQueryOptions = () =>
+export const couponsQueryOptions = (data: FetchPaginatedCouponsParams) =>
   queryOptions({
-    queryKey: ["coupons"],
-    queryFn: () => fetchCoupons(),
+    queryKey: ["coupons", data.pagination.pageIndex],
+    queryFn: () => fetchPaginatedCoupons({ data }),
+    placeholderData: keepPreviousData,
   });
 
 const addCoupons = createServerFn({ method: "POST" })
