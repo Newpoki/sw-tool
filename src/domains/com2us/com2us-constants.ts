@@ -1,0 +1,1 @@
+export const COM2US_API_SUCCESS_RET_CODE = 100;

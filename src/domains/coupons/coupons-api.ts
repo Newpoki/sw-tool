@@ -4,13 +4,14 @@ import {
   MutationOptions,
   queryOptions,
 } from "@tanstack/react-query";
-import { PrismaClient, Coupon } from "@prisma/client";
+import { Coupon, PrismaClient } from "@prisma/client";
 import {
-  AddCouponFormValues,
-  addCouponFormValuesSchema,
+  AddCouponAPIPayload,
   FetchPaginatedCouponsParams,
   fetchPaginatedCouponsParamsSchema as fetchPaginatedCouponsParamsSchema,
 } from "./coupons-types";
+import { addCouponAPI } from "./api/add-coupon-api";
+import { APIResponse } from "~/api/api-types";
 
 const prisma = new PrismaClient();
 
@@ -40,24 +41,11 @@ export const fetchPaginatedCouponsQueryOptions = (
     placeholderData: keepPreviousData,
   });
 
-const addCoupons = createServerFn({ method: "POST" })
-  .inputValidator(addCouponFormValuesSchema)
-  .handler(async ({ data }) => {
-    const coupon = await prisma.coupon.create({
-      data: {
-        code: data.code,
-        expiresAt: data.expiresAt,
-      },
-    });
-
-    return coupon;
-  });
-
-export const addCouponsMutationOptions = (): MutationOptions<
-  Coupon,
+export const addCouponMutationOptions = (): MutationOptions<
+  APIResponse<Coupon>,
   unknown,
-  AddCouponFormValues
+  AddCouponAPIPayload
 > => ({
   mutationKey: ["coupon", "add"],
-  mutationFn: async (data: AddCouponFormValues) => await addCoupons({ data }),
+  mutationFn: async (data) => await addCouponAPI({ data }),
 });
