@@ -14,10 +14,13 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "~/components/ui/sonner";
 import { Header } from "~/components/header/header";
 import { QueryClient } from "@tanstack/react-query";
+import { getThemeServerFn } from "~/domains/theme/theme";
+import { ThemeProvider } from "~/domains/theme/theme-provider";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
+  loader: () => getThemeServerFn(),
   head: () => ({
     meta: [
       {
@@ -62,20 +65,24 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const theme = Route.useLoaderData();
+
   return (
-    <html>
+    <html className={theme} lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
       {/* Avoid using styles on body, can cause some issue with dropover, popover, dialog, etc */}
       <body>
-        <div className="flex flex-col gap-4">
-          <Header />
+        <ThemeProvider theme={theme}>
+          <div className="flex flex-col gap-4">
+            <Header />
 
-          {children}
-        </div>
+            {children}
+          </div>
 
-        <Toaster />
+          <Toaster />
+        </ThemeProvider>
 
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
