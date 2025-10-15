@@ -6,9 +6,5 @@ export const Route = createFileRoute("/settings")({
 });
 
 function RouteComponent() {
-  return (
-    <div className="container">
-      <SettingsForm />
-    </div>
-  );
+  return <SettingsForm />;
 }

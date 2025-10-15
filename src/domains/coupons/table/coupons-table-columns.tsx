@@ -10,17 +10,33 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { toast } from "sonner";
 import { Coupon } from "@prisma/client";
+import { Skeleton } from "~/components/ui/skeleton";
 
-export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
+export const getCouponsTableColumns = (
+  isLoading: boolean,
+): ColumnDef<Coupon>[] => [
   {
     accessorKey: "code",
     header: "Coupon",
     enableHiding: false,
+    cell: ({ row }) => {
+      if (isLoading) {
+        return <Skeleton className="my-2 h-4 w-3/4" />;
+      }
+
+      const { code } = row.original;
+
+      return <span className="font-bold">{code}</span>;
+    },
   },
   {
     accessorKey: "createdAt",
     header: "Created At",
     cell: ({ row }) => {
+      if (isLoading) {
+        return <Skeleton className="my-2 h-4 w-3/4" />;
+      }
+
       const { createdAt } = row.original;
 
       return new Intl.DateTimeFormat("en-US", {
@@ -32,6 +48,10 @@ export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
     accessorKey: "expiresAt",
     header: "Expires At",
     cell: ({ row }) => {
+      if (isLoading) {
+        return <Skeleton className="my-2 h-4 w-3/4" />;
+      }
+
       const { expiresAt } = row.original;
 
       if (expiresAt == null) {
@@ -46,8 +66,13 @@ export const COUPONS_TABLE_COLUMNS: ColumnDef<Coupon>[] = [
 
   {
     id: "actions",
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
+      if (isLoading) {
+        return <Skeleton className="h-4 w-full" />;
+      }
+
       const { code } = row.original;
 
       return (

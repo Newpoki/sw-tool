@@ -1,15 +1,5 @@
-"use client";
-
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  OnChangeFn,
-  PaginationState,
-  useReactTable,
-} from "@tanstack/react-table";
+import { flexRender, Table as TSTable } from "@tanstack/react-table";
 import { Button } from "~/components/ui/button";
-
 import {
   Table,
   TableBody,
@@ -18,64 +8,15 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import { CouponsTableColumnsPicker } from "./coupons-table-columns-picker";
-import { useLocalStorage } from "~/lib/use-local-storage";
-import { couponsTableInitialColumnsVisibilitySchema } from "../coupons-types";
-import { COUPONS_TABLE_INITIAL_COLUMNS_VISIBILITY_LS_KEY } from "../coupons-constants";
 import { Coupon } from "@prisma/client";
-import { Link } from "@tanstack/react-router";
 
 type CouponsTableProps = {
-  columns: ColumnDef<Coupon>[];
-  data: Coupon[];
-  rowCount: number;
-  paginationState: PaginationState;
-  onPaginationChange: OnChangeFn<PaginationState>;
+  table: TSTable<Coupon>;
 };
 
-export const CouponsTable = ({
-  columns,
-  data,
-  paginationState,
-  rowCount,
-  onPaginationChange,
-}: CouponsTableProps) => {
-  const initialColumnsVisibilityLS = useLocalStorage(
-    COUPONS_TABLE_INITIAL_COLUMNS_VISIBILITY_LS_KEY,
-    couponsTableInitialColumnsVisibilitySchema,
-  );
-
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    rowCount,
-    manualPagination: true,
-    initialState: {
-      columnVisibility: initialColumnsVisibilityLS.get() ?? undefined,
-    },
-    state: {
-      pagination: paginationState,
-    },
-    onPaginationChange,
-  });
-
+export const CouponsTable = ({ table }: CouponsTableProps) => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between">
-        <CouponsTableColumnsPicker table={table} />
-
-        <Button asChild type="button">
-          <Link
-            to="/coupons/add"
-            // Subroute is displayed as Outlet, we want to keep the scroll position
-            resetScroll={false}
-          >
-            Add new coupon
-          </Link>
-        </Button>
-      </div>
-
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
@@ -117,7 +58,7 @@ export const CouponsTable = ({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
                   No results.

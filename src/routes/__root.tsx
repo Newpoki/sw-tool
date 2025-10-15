@@ -78,7 +78,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <div className="flex flex-col gap-4">
             <Header />
 
-            {children}
+            <div className="container">{children}</div>
           </div>
 
           <Toaster />
