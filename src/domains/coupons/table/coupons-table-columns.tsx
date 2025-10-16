@@ -44,25 +44,6 @@ export const getCouponsTableColumns = (
       }).format(createdAt);
     },
   },
-  {
-    accessorKey: "expiresAt",
-    header: "Expires At",
-    cell: ({ row }) => {
-      if (isLoading) {
-        return <Skeleton className="my-2 h-4 w-3/4" />;
-      }
-
-      const { expiresAt } = row.original;
-
-      if (expiresAt == null) {
-        return "N/A";
-      }
-
-      return new Intl.DateTimeFormat("en-US", {
-        dateStyle: "long",
-      }).format(expiresAt);
-    },
-  },
 
   {
     id: "actions",

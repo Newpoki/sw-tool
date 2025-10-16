@@ -49,7 +49,7 @@ export const addCouponAPI = createServerFn({ method: "POST" })
         await prisma.coupon.create({
           data: {
             code: data.coupon,
-            expiresAt: new Date(),
+            isExpired: true,
           },
         });
       }
@@ -86,8 +86,6 @@ export const addCouponAPI = createServerFn({ method: "POST" })
       const addedCoupon = await prisma.coupon.create({
         data: {
           code: data.coupon,
-          // TODO: Add ExpiresAt
-          //   expiresAt: data.expiresAt,
         },
       });
 

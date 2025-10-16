@@ -14,7 +14,6 @@ import {
   addCouponMutationOptions,
   fetchPaginatedCouponsQueryOptions,
 } from "../coupons-api";
-import { CouponsAddFormExpiresAtField } from "./coupons-add-form-expires-at-field";
 import { toast } from "sonner";
 import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "../coupons-constants";
 import { useLocalStorage } from "~/lib/use-local-storage";
@@ -35,7 +34,6 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
     resolver: zodResolver(addCouponFormValuesSchema),
     defaultValues: {
       code: "",
-      expiresAt: undefined,
     },
   });
 
@@ -102,8 +100,6 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <FieldGroup>
         <CouponsAddFormCodeField control={form.control} />
-
-        <CouponsAddFormExpiresAtField control={form.control} />
 
         <Field>
           {/* TODO: Display loader instead of disabled */}
