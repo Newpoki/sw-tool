@@ -54,12 +54,16 @@ export const getCouponsTableColumns = (
         return <Skeleton className="h-4 w-full" />;
       }
 
-      const { code } = row.original;
+      const { code, isExpired } = row.original;
 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              variant="ghost"
+              className="h-8 w-8 p-0"
+              disabled={isExpired}
+            >
               <span className="sr-only">Open menu</span>
               <MoreHorizontalIcon className="h-4 w-4" />
             </Button>

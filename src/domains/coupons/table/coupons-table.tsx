@@ -44,6 +44,7 @@ export const CouponsTable = ({ table }: CouponsTableProps) => {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  isDisabled={row.original.isExpired}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
