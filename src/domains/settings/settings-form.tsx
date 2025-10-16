@@ -43,7 +43,7 @@ export const SettingsForm = () => {
 
         <SettingsFormServerField control={form.control} />
 
-        <Field>
+        <Field className="md:ml-auto md:w-fit">
           <Button>Save</Button>
         </Field>
       </FieldGroup>

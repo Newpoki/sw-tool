@@ -45,7 +45,6 @@ function RouteComponent() {
     data: isLoading
       ? Array(COUPONS_TABLE_DEFAULT_PAGINATION_STATE.pageSize).fill({})
       : (data?.elements ?? []),
-
     getCoreRowModel: getCoreRowModel(),
     rowCount: data?.count ?? 0,
     columns: cols,

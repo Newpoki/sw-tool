@@ -75,10 +75,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       {/* Avoid using styles on body, can cause some issue with dropover, popover, dialog, etc */}
       <body>
         <ThemeProvider theme={theme}>
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 md:gap-12">
             <Header />
 
-            <div className="container">{children}</div>
+            <div className="layout mx-auto">{children}</div>
           </div>
 
           <Toaster />

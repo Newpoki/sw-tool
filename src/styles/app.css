@@ -114,10 +114,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
-  .container {
-    @apply px-2;
-  }
+}
+
+@utility layout {
+  @apply w-full px-3 sm:max-w-[40rem] md:max-w-[48rem] md:px-8 lg:max-w-[64rem] xl:max-w-[80rem];
 }
