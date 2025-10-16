@@ -5,8 +5,8 @@ import {
   useCouponAPIPayloadSchema,
   UseCouponAPIResponse,
   useCouponAPIResponseSchema,
-} from "../coupons-types";
-import { USE_COUPON_API_ERROR_CODES_MAPPING } from "../coupons-constants";
+} from "./use-coupon-types";
+import { USE_COUPON_API_ERROR_CODES_MAPPING } from "./use-coupon-constants";
 
 const USE_COUPON_API_HEADERS = {
   Accept: "application/json, text/javascript, */*; q=0.01",
