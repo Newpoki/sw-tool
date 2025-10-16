@@ -102,8 +102,7 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
         <CouponsAddFormCodeField control={form.control} />
 
         <Field>
-          {/* TODO: Display loader instead of disabled */}
-          <Button disabled={form.formState.isSubmitting}>Add</Button>
+          <Button loading={form.formState.isSubmitting}>Add</Button>
         </Field>
       </FieldGroup>
     </form>
