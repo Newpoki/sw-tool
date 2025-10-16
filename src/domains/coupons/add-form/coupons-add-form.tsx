@@ -68,6 +68,11 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
           queryClient.invalidateQueries({ queryKey: ["coupons"] });
         }
 
+        // Must refresh the list as the coupon should now be flagged as expired
+        if (response.code === "EXPIRED_COUPON") {
+          queryClient.invalidateQueries({ queryKey: ["coupons"] });
+        }
+
         return;
       }
 
@@ -77,6 +82,9 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
 
       onSuccess();
     },
+    onError: () => {
+      toast.error("UNKNOWN_ERROR");
+    },
   });
 
   const handleSubmit = useCallback(
@@ -85,8 +93,8 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
 
       const payload: AddCouponAPIPayload = {
         country: "FR",
-        lang: "fr",
-        server: "europe",
+        lang: settings?.lang ?? "fr",
+        server: settings?.server ?? "europe",
         coupon: formValues.code,
         hiveid: settings?.hiveId ?? "",
       };

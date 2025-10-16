@@ -36,18 +36,17 @@ export const addCouponAPI = createServerFn({ method: "POST" })
       const hasCouponExpired =
         useCouponResponse.code === USE_COUPON_API_ERROR_CODES_MAPPING["(H306)"];
 
-      // If coupon has expired, we must check if we have this coupon in database
-      // So we can tag it as expired
       if (hasCouponExpired) {
-        if (existingCoupon) {
-          // Coupon already in DB, just return the error
-          return useCouponResponse;
-        }
-
-        // We can add it in the DB, so user might not lose time
-        // Trying to redeem it if they see it as expired
-        await prisma.coupon.create({
-          data: {
+        await prisma.coupon.upsert({
+          where: {
+            code: data.coupon,
+          },
+          update: {
+            // We can set it to expired if it already exist
+            isExpired: true,
+          },
+          // And add it as expired for other users
+          create: {
             code: data.coupon,
             isExpired: true,
           },

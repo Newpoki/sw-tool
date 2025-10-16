@@ -41,11 +41,9 @@ export const fetchPaginatedCouponsQueryOptions = (
     placeholderData: keepPreviousData,
   });
 
-export const addCouponMutationOptions = (): MutationOptions<
-  APIResponse<Coupon>,
-  unknown,
-  AddCouponAPIPayload
-> => ({
-  mutationKey: ["coupon", "add"],
+export const addCouponMutationOptions = (
+  coupon?: Coupon,
+): MutationOptions<APIResponse<Coupon>, unknown, AddCouponAPIPayload> => ({
+  mutationKey: ["coupon", "add", coupon?.id],
   mutationFn: async (data) => await addCouponAPI({ data }),
 });

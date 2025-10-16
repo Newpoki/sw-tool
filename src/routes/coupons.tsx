@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import { fetchPaginatedCouponsQueryOptions } from "~/domains/coupons/coupons-api";
-import { getCouponsTableColumns } from "~/domains/coupons/table/coupons-table-columns";
+import { useGetCouponsTableColumns } from "~/domains/coupons/table/coupons-table-columns";
 import {
   COUPONS_TABLE_DEFAULT_PAGINATION_STATE,
   COUPONS_TABLE_INITIAL_COLUMNS_VISIBILITY_LS_KEY,
@@ -17,7 +17,7 @@ import { CouponsTableColumnsPicker } from "~/domains/coupons/table/coupons-table
 import { Button } from "~/components/ui/button";
 import { useLocalStorage } from "~/lib/use-local-storage";
 import { couponsTableInitialColumnsVisibilitySchema } from "~/domains/coupons/coupons-types";
-import { CouponsPendingComponent } from "~/domains/coupons/table/coupons-pending-component";
+import { CouponsPendingComponent } from "~/domains/coupons/coupons-pending-component";
 
 export const Route = createFileRoute("/coupons")({
   ssr: false, // We don't need SSR features, and in our case, it cause some troubles
@@ -39,7 +39,7 @@ function RouteComponent() {
     couponsTableInitialColumnsVisibilitySchema,
   );
 
-  const cols = getCouponsTableColumns(isLoading);
+  const cols = useGetCouponsTableColumns({ isLoading });
 
   const table = useReactTable({
     data: isLoading
@@ -60,7 +60,7 @@ function RouteComponent() {
 
   return (
     <div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 md:gap-12">
         <div className="flex justify-between">
           <CouponsTableColumnsPicker table={table} />
 
