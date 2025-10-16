@@ -7,7 +7,7 @@ export const Route = createFileRoute("/settings")({
 
 function RouteComponent() {
   return (
-    <div className="mx-auto md:w-[350px]">
+    <div className="mx-auto md:w-[500px]">
       <SettingsForm />
     </div>
   );

@@ -18,8 +18,8 @@ import { toast } from "sonner";
 import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "../coupons-constants";
 import { useLocalStorage } from "~/lib/use-local-storage";
 import { SETTINGS_LS_KEY } from "~/domains/settings/settings-constants";
-import { settingsSchema } from "~/domains/settings/settings-types";
 import { Coupon } from "@prisma/client";
+import { settingsFormValuesSchema } from "~/domains/settings/settings-types";
 
 type CouponsAddFormProps = {
   onSuccess: () => void;
@@ -28,7 +28,7 @@ type CouponsAddFormProps = {
 export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
   const queryClient = useQueryClient();
 
-  const settingsLS = useLocalStorage(SETTINGS_LS_KEY, settingsSchema);
+  const settingsLS = useLocalStorage(SETTINGS_LS_KEY, settingsFormValuesSchema);
 
   const form = useForm<AddCouponFormValues>({
     resolver: zodResolver(addCouponFormValuesSchema),

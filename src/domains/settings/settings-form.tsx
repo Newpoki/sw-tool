@@ -1,9 +1,5 @@
 import { useForm } from "react-hook-form";
-import {
-  SettingsFormValues,
-  settingsFormValuesSchema,
-  settingsSchema,
-} from "./settings-types";
+import { SettingsFormValues, settingsFormValuesSchema } from "./settings-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocalStorage } from "~/lib/use-local-storage";
 import { SETTINGS_LS_KEY } from "./settings-constants";
@@ -13,9 +9,10 @@ import { SettingsFormHiveIdField } from "./settings-form-hive-id-field";
 import { SettingsFormServerField } from "./settings-form-server-field";
 import { Button } from "~/components/ui/button";
 import { toast } from "sonner";
+import { SettingsFormLangField } from "./settings-form-lang-field";
 
 export const SettingsForm = () => {
-  const settingsLS = useLocalStorage(SETTINGS_LS_KEY, settingsSchema);
+  const settingsLS = useLocalStorage(SETTINGS_LS_KEY, settingsFormValuesSchema);
 
   const settingsFromLS = settingsLS.get();
 
@@ -24,6 +21,7 @@ export const SettingsForm = () => {
     defaultValues: {
       hiveId: settingsFromLS?.hiveId ?? "",
       server: settingsFromLS?.server ?? "europe",
+      lang: settingsFromLS?.lang ?? "fr",
     },
   });
 
@@ -42,6 +40,8 @@ export const SettingsForm = () => {
         <SettingsFormHiveIdField control={form.control} />
 
         <SettingsFormServerField control={form.control} />
+
+        <SettingsFormLangField control={form.control} />
 
         <Field className="md:ml-auto md:w-fit">
           <Button>Save</Button>
