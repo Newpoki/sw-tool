@@ -21,7 +21,7 @@ export const getCouponsTableColumns = (
     enableHiding: false,
     cell: ({ row }) => {
       if (isLoading) {
-        return <Skeleton className="my-2 h-4 w-3/4" />;
+        return <Skeleton className="my-2 h-4 w-40" />;
       }
 
       const { code } = row.original;
@@ -34,7 +34,7 @@ export const getCouponsTableColumns = (
     header: "Created At",
     cell: ({ row }) => {
       if (isLoading) {
-        return <Skeleton className="my-2 h-4 w-3/4" />;
+        return <Skeleton className="my-2 h-4 w-28" />;
       }
 
       const { createdAt } = row.original;
