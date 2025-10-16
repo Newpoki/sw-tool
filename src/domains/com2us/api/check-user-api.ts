@@ -1,12 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
+
+import { APIResponse } from "~/api/api-types";
 import {
   checkUserAPIErrorResponseSchema,
   checkUserAPIPayloadSchema,
   CheckUserAPIResponse,
   checkUserAPIResponseSchema,
-} from "../user-types";
-import { APIResponse } from "~/api/api-types";
-import { CHECK_USER_API_ERROR_CODES_MAPPING } from "../user-constants";
+} from "./check-user-types";
+import { CHECK_USER_API_ERROR_CODES_MAPPING } from "./check-user-constants";
 
 const CHECK_USER_API_HEADERS = {
   Accept: "application/json, text/javascript, */*; q=0.01",

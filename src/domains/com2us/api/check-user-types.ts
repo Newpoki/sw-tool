@@ -1,9 +1,9 @@
 import z from "zod";
-import { serverSchema } from "../servers/servers-types";
-import { langSchema } from "../langs/langs-types";
-import { countrySchema } from "../countries/countries-types";
-import { com2usAPISuccessResponseSchema } from "../com2us/com2us-types";
-import { CHECK_USER_API_ERROR_CODES } from "./user-constants";
+import { CHECK_USER_API_ERROR_CODES } from "./check-user-constants";
+import { countrySchema } from "~/domains/countries/countries-types";
+import { langSchema } from "~/domains/langs/langs-types";
+import { serverSchema } from "~/domains/servers/servers-types";
+import { com2usAPISuccessResponseSchema } from "../com2us-types";
 
 export const checkUserAPIPayloadSchema = z.object({
   country: countrySchema,

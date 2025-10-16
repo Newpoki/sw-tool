@@ -1,11 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import { checkUserAPI } from "~/domains/user/api/check-user-api";
 import { APIResponse } from "~/api/api-types";
 import { addCouponAPIPayloadSchema } from "../coupons-types";
 import { Coupon, PrismaClient } from "@prisma/client";
 import { fetchCouponAPI } from "./fetch-coupon-api";
 import { useCouponAPI } from "~/domains/com2us/api/use-coupon-api";
 import { USE_COUPON_API_ERROR_CODES_MAPPING } from "~/domains/com2us/api/use-coupon-constants";
+import { checkUserAPI } from "~/domains/com2us/api/check-user-api";
 
 const prisma = new PrismaClient();
 
