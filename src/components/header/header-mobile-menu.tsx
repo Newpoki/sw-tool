@@ -48,16 +48,6 @@ export const HeaderMobileMenu = () => {
               variant="link"
               className="w-full justify-start text-2xl"
             >
-              <Link to="/">Home</Link>
-            </Button>
-          </SheetClose>
-
-          <SheetClose asChild>
-            <Button
-              asChild
-              variant="link"
-              className="w-full justify-start text-2xl"
-            >
               <Link to="/coupons">Coupons list</Link>
             </Button>
           </SheetClose>

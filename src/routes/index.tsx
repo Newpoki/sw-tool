@@ -1,13 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Home,
+  loader: () => {
+    throw redirect({ to: "/coupons" });
+  },
 });
 
 function Home() {
-  return (
-    <div>
-      <p>landing page</p>
-    </div>
-  );
+  return null;
 }

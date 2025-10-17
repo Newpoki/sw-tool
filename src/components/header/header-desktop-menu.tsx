@@ -12,10 +12,6 @@ export const HeaderDesktopMenu = () => {
       </Button>
 
       <Button size="sm" asChild variant="ghost">
-        <Link to="/">Home</Link>
-      </Button>
-
-      <Button size="sm" asChild variant="ghost">
         <Link to="/coupons">Coupons list</Link>
       </Button>
 
