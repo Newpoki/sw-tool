@@ -31,6 +31,8 @@ export const fetchCouponAPIPayloadSchema = z.object({
   code: z.string(),
 });
 
+export const couponsTableUsedCouponsSchema = z.record(z.string(), z.boolean());
+
 export type AddCouponFormValues = z.infer<typeof addCouponFormValuesSchema>;
 
 export type FetchPaginatedCouponsParams = z.infer<
@@ -38,3 +40,7 @@ export type FetchPaginatedCouponsParams = z.infer<
 >;
 
 export type AddCouponAPIPayload = z.infer<typeof addCouponAPIPayloadSchema>;
+
+export type CouponsTableUsedCoupons = z.infer<
+  typeof couponsTableUsedCouponsSchema
+>;

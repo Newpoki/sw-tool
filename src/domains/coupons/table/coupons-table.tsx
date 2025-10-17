@@ -9,12 +9,20 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import { Coupon } from "@prisma/client";
+import { useLocalStorage } from "~/lib/use-local-storage";
+import { COUPONS_TABLE_USED_COUPONS_LS_KEY } from "../coupons-constants";
+import { couponsTableUsedCouponsSchema } from "../coupons-types";
 
 type CouponsTableProps = {
   table: TSTable<Coupon>;
 };
 
 export const CouponsTable = ({ table }: CouponsTableProps) => {
+  const usedCouponsLS = useLocalStorage(
+    COUPONS_TABLE_USED_COUPONS_LS_KEY,
+    couponsTableUsedCouponsSchema,
+  );
+
   return (
     <div className="flex flex-col gap-4">
       <div className="overflow-hidden rounded-md border">
@@ -40,22 +48,29 @@ export const CouponsTable = ({ table }: CouponsTableProps) => {
 
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  isDisabled={row.original.isExpired}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const { isExpired, code } = row.original;
+
+                const isRowDisabled =
+                  usedCouponsLS.get()?.[code] != null || isExpired;
+
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    isDisabled={isRowDisabled}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell

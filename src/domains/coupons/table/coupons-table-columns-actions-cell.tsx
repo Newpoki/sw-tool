@@ -14,10 +14,14 @@ import {
 import { Skeleton } from "~/components/ui/skeleton";
 import { addCouponMutationOptions } from "../coupons-api";
 import { useCallback } from "react";
-import { AddCouponAPIPayload } from "../coupons-types";
+import {
+  AddCouponAPIPayload,
+  couponsTableUsedCouponsSchema,
+} from "../coupons-types";
 import { useLocalStorage } from "~/lib/use-local-storage";
 import { SETTINGS_LS_KEY } from "~/domains/settings/settings-constants";
 import { settingsFormValuesSchema } from "~/domains/settings/settings-types";
+import { COUPONS_TABLE_USED_COUPONS_LS_KEY } from "../coupons-constants";
 
 type CouponsTablecolumnsActionsCellProps = CellContext<Coupon, void> & {
   isLoading: boolean;
@@ -27,10 +31,16 @@ export const CouponsTablecolumnsActionsCell = ({
   row,
   isLoading,
 }: CouponsTablecolumnsActionsCellProps) => {
-  const { code, isExpired } = row.original;
+  const queryClient = useQueryClient();
+
   const settingsLS = useLocalStorage(SETTINGS_LS_KEY, settingsFormValuesSchema);
 
-  const queryClient = useQueryClient();
+  const usedCouponsLS = useLocalStorage(
+    COUPONS_TABLE_USED_COUPONS_LS_KEY,
+    couponsTableUsedCouponsSchema,
+  );
+
+  const { code, isExpired } = row.original;
 
   const { mutate: redeemCoupon, isPending } = useMutation({
     ...addCouponMutationOptions(row.original),
@@ -40,6 +50,14 @@ export const CouponsTablecolumnsActionsCell = ({
 
         // Refreshing because it should now be flagged as expired in the list
         if (response.code === "EXPIRED_COUPON") {
+          queryClient.invalidateQueries({ queryKey: ["coupons"] });
+        }
+
+        if (response.code === "COUPON_ALREADY_USED") {
+          const currentCoupon = usedCouponsLS.get();
+
+          usedCouponsLS.set({ ...currentCoupon, [code]: true });
+
           queryClient.invalidateQueries({ queryKey: ["coupons"] });
         }
 

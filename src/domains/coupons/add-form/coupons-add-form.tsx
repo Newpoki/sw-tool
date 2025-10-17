@@ -4,6 +4,7 @@ import {
   AddCouponAPIPayload,
   AddCouponFormValues,
   addCouponFormValuesSchema,
+  couponsTableUsedCouponsSchema,
 } from "../coupons-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field, FieldGroup } from "~/components/ui/field";
@@ -15,7 +16,10 @@ import {
   fetchPaginatedCouponsQueryOptions,
 } from "../coupons-api";
 import { toast } from "sonner";
-import { COUPONS_TABLE_DEFAULT_PAGINATION_STATE } from "../coupons-constants";
+import {
+  COUPONS_TABLE_DEFAULT_PAGINATION_STATE,
+  COUPONS_TABLE_USED_COUPONS_LS_KEY,
+} from "../coupons-constants";
 import { useLocalStorage } from "~/lib/use-local-storage";
 import { SETTINGS_LS_KEY } from "~/domains/settings/settings-constants";
 import { Coupon } from "@prisma/client";
@@ -30,6 +34,11 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
 
   const settingsLS = useLocalStorage(SETTINGS_LS_KEY, settingsFormValuesSchema);
 
+  const usedCouponsLS = useLocalStorage(
+    COUPONS_TABLE_USED_COUPONS_LS_KEY,
+    couponsTableUsedCouponsSchema,
+  );
+
   const form = useForm<AddCouponFormValues>({
     resolver: zodResolver(addCouponFormValuesSchema),
     defaultValues: {
@@ -39,8 +48,19 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
 
   const { mutateAsync: addCouponMutation } = useMutation({
     ...addCouponMutationOptions(),
-    onSuccess: (response) => {
-      const updateQueryData = (coupon: Coupon) =>
+    onSuccess: (response, payload) => {
+      const flagCouponAsUsed = (code: string) => {
+        const currentCoupon = usedCouponsLS.get();
+
+        usedCouponsLS.set({
+          ...currentCoupon,
+          [code]: true,
+        });
+      };
+
+      const updateQueryData = (coupon: Coupon) => {
+        flagCouponAsUsed(coupon.id);
+
         queryClient.setQueryData(
           // Updating only the first page, because that's where the element would end up
           fetchPaginatedCouponsQueryOptions({
@@ -57,6 +77,7 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
             };
           },
         );
+      };
 
       if (!response.success) {
         toast.error(response.code);
@@ -64,7 +85,12 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
         // Code was already used, but since we didn't have it yet in the DB
         // We must refresh the list, so it's now displayed
         // Can't add it directly because we can't know on which page it would end up
-        if (response.code === "ALREADY_USED_ADDED_LIST") {
+        if (
+          response.code === "ALREADY_USED_ADDED_LIST" ||
+          response.code === "COUPON_ALREADY_USED"
+        ) {
+          flagCouponAsUsed(payload.coupon);
+
           queryClient.invalidateQueries({ queryKey: ["coupons"] });
         }
 

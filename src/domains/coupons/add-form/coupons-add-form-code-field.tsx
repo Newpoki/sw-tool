@@ -28,6 +28,7 @@ export const CouponsAddFormCodeField = ({
 
       <Input
         {...field}
+        autoFocus
         id={field.name}
         onChange={handleChange}
         placeholder="Type the coupon code"
