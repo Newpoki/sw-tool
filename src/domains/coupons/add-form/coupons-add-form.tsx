@@ -50,10 +50,10 @@ export const CouponsAddForm = ({ onSuccess }: CouponsAddFormProps) => {
     ...addCouponMutationOptions(),
     onSuccess: (response, payload) => {
       const flagCouponAsUsed = (code: string) => {
-        const currentCoupon = usedCouponsLS.get();
+        const currentCoupons = usedCouponsLS.get();
 
         usedCouponsLS.set({
-          ...currentCoupon,
+          ...currentCoupons,
           [code]: true,
         });
       };

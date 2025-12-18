@@ -6,6 +6,10 @@ export const useLocalStorage = <TSchema extends z.ZodType>(
   schema: TSchema,
 ) => {
   const handleGetValue = useCallback(() => {
+    if (typeof window == "undefined") {
+      return null;
+    }
+
     try {
       const raw = localStorage.getItem(key);
 
