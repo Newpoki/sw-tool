@@ -48,7 +48,7 @@ function RouteComponent() {
         open={isOpen}
         onOpenChange={(open) => !open && handleCloseAndRedirect()}
       >
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-106.25">
           <DialogHeader>
             <DialogTitle>Add new code</DialogTitle>
             <DialogDescription>
